@@ -22,21 +22,46 @@ class SpriteSheet(object):
 		# Return the image
 		return image
 
-
-
-class hero(pygame.sprite.Sprite):
-	def __init__(self, startX, startY):
+class gold(pygame.sprite.Sprite):
+	def __init__(self, inImg):
 		pygame.sprite.Sprite.__init__(self)
-		self.x = startX
-		self.y = startY
 		self.rect = (32,32)
+		self.x = random.randint(133,537)
+		self.y = random.randint(33,286)
+		self.image = inImg
 	def update(self):
 		self.rect = (self.x, self.y)
+	def setImage(self, inImage):
+		self.image = inImage
+	def getX(self):
+		return self.x
+	def getY(self):
+		return self.y
 		
+class hero(pygame.sprite.Sprite):
+	def __init__(self):
+		pygame.sprite.Sprite.__init__(self)
+		self.x = 33
+		self.y = 160
+		self.rect = (32,32)
+		self.health = 100
+		self.gold = 0
+	def update(self):
+		self.rect = (self.x, self.y)
+	def takeGold(self):
+		self.gold += 1
+	def getGold(self):
+		return self.gold
+	def resetHealth(self):
+		self.health = 100
+	def getHealth(self):
+		return self.health
+	def takeHit(self):
+		self.health -= 5
 	def setImage(self, inImage):
 		self.image = inImage
 	def moveRight(self):
-		if self.x > 517:
+		if self.x > 537:
 			return
 		self.x +=5
 		
@@ -51,24 +76,26 @@ class hero(pygame.sprite.Sprite):
 		self.y-=5
 		
 	def moveDown(self):
-		if self.y > 266:
+		if self.y > 286:
 			return
 		self.y+=5
-		
+	def resetPos(self):
+		self.x = 33
+		self.y = 160
 	def getX(self):
 		return self.x
 	def getY(self):
 		return self.y
 
 class enemy(pygame.sprite.Sprite):
-	def __init__(self, startX, startY):
+	def __init__(self):
 		pygame.sprite.Sprite.__init__(self)
-		self.x = startX
-		self.y = startY
+		self.x = random.randint(133,537)
+		self.y = random.randint(33,286)
 		self.isLoiter = True
 		self.rect = (32,32)
 		self.loiterTime = 0
-		self.loiterDirection = 1
+		self.loiterDirection = random.randint(1,4)
 	def setIsLoiter(self, switch):
 		self.isLoiter = switch
 	def getIsLoiter(self):
@@ -86,7 +113,7 @@ class enemy(pygame.sprite.Sprite):
 	def update(self):
 		self.rect = (self.x, self.y)
 	def moveRight(self):
-		if self.x > 517:
+		if self.x > 537:
 			self.loiterDirection = random.randint(1,4)
 			return
 		self.x +=3
@@ -105,7 +132,7 @@ class enemy(pygame.sprite.Sprite):
 		self.y-=3
 		
 	def moveDown(self):
-		if self.y > 266:
+		if self.y > 286:
 			self.loiterDirection = random.randint(1,4)
 			
 			return

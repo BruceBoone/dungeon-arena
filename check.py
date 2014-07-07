@@ -1,4 +1,4 @@
-import players, math, random
+import players, math, random, pygame
 
 
 FPS = 30 # frames per second setting
@@ -87,5 +87,21 @@ def enemySprit(someEnemy, direction, someSS, count):
 		elif count == 3:
 			someEnemy.setImage(someSS.get_image(64,96,32,32))
 
+def collisionCheck(somePlayer, enemyList):
+	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),32,32)
+	for someEnemy in enemyList:
+		enemyRect = pygame.Rect(someEnemy.getX(),someEnemy.getY(),32,32)
+		if playerRect.colliderect(enemyRect):
+		#if playerRect.contains(enemyRect):
+			somePlayer.takeHit()
+			print somePlayer.getHealth()
 
-
+def goldPickup(somePlayer, goldList, actors):
+	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),32,32)
+	for someGold in goldList:
+		goldRect = pygame.Rect(someGold.getX(),someGold.getY(),32,32)
+		if playerRect.colliderect(goldRect):
+		#if playerRect.contains(enemyRect):
+			somePlayer.takeGold()
+			#actors.remove(someGold)
+			someGold.kill()
