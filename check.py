@@ -1,4 +1,4 @@
-import players, math, random, pygame
+import players, math, random, pygame, time
 
 
 FPS = 30 # frames per second setting
@@ -90,7 +90,7 @@ def enemySprit(someEnemy, direction, someSS, count):
 def collisionCheck(somePlayer, enemyList):
 	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),32,32)
 	for someEnemy in enemyList:
-		enemyRect = pygame.Rect(someEnemy.getX(),someEnemy.getY(),32,32)
+		enemyRect = pygame.Rect(someEnemy.getX(),someEnemy.getY(),16,16)
 		if playerRect.colliderect(enemyRect):
 		#if playerRect.contains(enemyRect):
 			somePlayer.takeHit()
@@ -98,10 +98,17 @@ def collisionCheck(somePlayer, enemyList):
 
 def goldPickup(somePlayer, goldList, actors):
 	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),32,32)
-	for someGold in goldList:
-		goldRect = pygame.Rect(someGold.getX(),someGold.getY(),32,32)
-		if playerRect.colliderect(goldRect):
-		#if playerRect.contains(enemyRect):
+	for someGold in goldList.getList():
+		goldRect = pygame.Rect(someGold.getX(),someGold.getY(),8,8)
+		if playerRect.colliderect(goldRect) == False:
+		#if somePlayer.rect.colliderect(someGold.rect) == False:
+			continue
+		else:			
+			print 'COLLIDED'
+			#time.sleep(3)
+			goldList.remove(someGold)
+			actors.remove(someGold)
+			
 			somePlayer.takeGold()
-			#actors.remove(someGold)
-			someGold.kill()
+			#someGold.kill()
+			#goldRect = ""

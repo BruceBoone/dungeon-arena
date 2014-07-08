@@ -43,7 +43,8 @@ class hero(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		self.x = 33
 		self.y = 160
-		self.rect = (32,32)
+		self.rect = pygame.Rect(32, 32, 16, 16)
+		#self.rect = (32,32)
 		self.health = 100
 		self.gold = 0
 	def update(self):
@@ -57,7 +58,7 @@ class hero(pygame.sprite.Sprite):
 	def getHealth(self):
 		return self.health
 	def takeHit(self):
-		self.health -= 5
+		self.health -= 2
 	def setImage(self, inImage):
 		self.image = inImage
 	def moveRight(self):
@@ -127,14 +128,12 @@ class enemy(pygame.sprite.Sprite):
 	def moveUp(self):
 		if self.y < 33:
 			self.loiterDirection = random.randint(1,4)
-			
 			return
 		self.y-=3
 		
 	def moveDown(self):
 		if self.y > 286:
 			self.loiterDirection = random.randint(1,4)
-			
 			return
 		self.y+=3
 		

@@ -1,4 +1,4 @@
-import pygame, sys, players, math, random, check
+import pygame, sys, players, math, random, check, group
 from pygame.locals import *
 
 pygame.init()
@@ -41,6 +41,7 @@ def main():
 		loop = 0
 		enemies = []
 		gold = []
+		
 		while loop < level:
 			enemies.append(players.enemy())
 			gold.append(players.gold(goldImg))
@@ -51,7 +52,8 @@ def main():
 		actors.add(enemies)
 		actors.add(gold)
 		goldGroup = pygame.sprite.Group(gold)
-		return (enemies, actors, gold)	
+		goldBin = group.goldList(gold)
+		return (enemies, actors, gold, goldBin)	
 		#firstSkeleton = players.enemy()
 		#secondSkeleton = players.enemy()
 
@@ -112,7 +114,7 @@ def main():
 		pygame.draw.rect(DISPLAYSURF, (255,0,0), (100,5,player.getHealth()-4, 10))
 		if roundStart == True:
 			goldLevel += level
-			enemies, actors, gold = spawnCharacters(level)
+			enemies, actors, gold, goldList = spawnCharacters(level)
 			roundStart = False
 		
 		#check held keys
@@ -155,7 +157,7 @@ def main():
 		
 		check.collisionCheck (player, enemies)
 		
-		check.goldPickup(player, gold, actors)
+		check.goldPickup(player, goldList, actors)
 		
 		
 
@@ -170,11 +172,13 @@ def main():
 					elif event.type == KEYDOWN and event.key == K_y:
 						main()
 						
+		print "Level: "+str(level)
+		print "Gold Level: "+str(goldLevel)
 		if player.getGold() == goldLevel:
 			player.resetPos()
 			roundStart = True
 			level +=1
-			
+		
 		
 		actors.clear(DISPLAYSURF, background_image)
 		actors.update()
