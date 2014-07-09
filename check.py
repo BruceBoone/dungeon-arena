@@ -88,18 +88,18 @@ def enemySprit(someEnemy, direction, someSS, count):
 			someEnemy.setImage(someSS.get_image(64,96,32,32))
 
 def collisionCheck(somePlayer, enemyList):
-	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),32,32)
+	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),20,20)
 	for someEnemy in enemyList:
-		enemyRect = pygame.Rect(someEnemy.getX(),someEnemy.getY(),16,16)
+		enemyRect = pygame.Rect(someEnemy.getX(),someEnemy.getY(),20,20)
 		if playerRect.colliderect(enemyRect):
 		#if playerRect.contains(enemyRect):
 			somePlayer.takeHit()
 			print somePlayer.getHealth()
 
 def goldPickup(somePlayer, goldList, actors):
-	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),32,32)
+	playerRect = pygame.Rect(somePlayer.getX(),somePlayer.getY(),16,16)
 	for someGold in goldList.getList():
-		goldRect = pygame.Rect(someGold.getX(),someGold.getY(),8,8)
+		goldRect = pygame.Rect(someGold.getX(),someGold.getY(),16,16)
 		if playerRect.colliderect(goldRect) == False:
 		#if somePlayer.rect.colliderect(someGold.rect) == False:
 			continue

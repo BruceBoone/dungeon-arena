@@ -58,6 +58,8 @@ class hero(pygame.sprite.Sprite):
 	def getHealth(self):
 		return self.health
 	def takeHit(self):
+		if self.health <= 0:
+			return
 		self.health -= 2
 	def setImage(self, inImage):
 		self.image = inImage

@@ -1,4 +1,4 @@
-import pygame, sys, players, math, random, check, group
+import pygame, sys, players, math, random, check, group, time
 from pygame.locals import *
 
 pygame.init()
@@ -15,8 +15,9 @@ def main():
 	goldLabel = myfont.render("GOLD:", 1, (0,0,0))
 	
 	deathFont = pygame.font.SysFont("gothic", 60, bold=True)
-	deathMsg = deathFont.render("U DIED", 1, (0,0,0))
-
+	deathMsg = deathFont.render("YOU DIED", 1, (255,0,0))
+	retryMsg = deathFont.render("PLAY AGAIN? Y/N", 1, (255,0,0))
+	
 	pygame.display.set_caption('Dungeon Arena')
 	background_image = pygame.image.load("background.png").convert()
 	goldImg = pygame.image.load("gold.png").convert()
@@ -111,8 +112,14 @@ def main():
 		DISPLAYSURF.blit(healthLabel, (10, 0))
 		DISPLAYSURF.blit(goldLabel, (250, 0))
 		DISPLAYSURF.blit(myfont.render(str(player.getGold()), 1, (0,0,0)), (310, 0))
-		pygame.draw.rect(DISPLAYSURF, (255,0,0), (100,5,player.getHealth()-4, 10))
+		pygame.draw.rect(DISPLAYSURF, (255,0,0), (100,5,player.getHealth()-2, 10))
 		if roundStart == True:
+			levelMsg = deathFont.render("LEVEL: "+str(level), 1, (255,255,255))
+			healthMsg = deathFont.render("HEALTH: "+str(player.getHealth()), 1, (255,255,255))
+			DISPLAYSURF.blit(levelMsg, (200, 110 ))
+			DISPLAYSURF.blit(healthMsg, (170, 150 ))
+			pygame.display.flip()
+			time.sleep(2)
 			goldLevel += level
 			enemies, actors, gold, goldList = spawnCharacters(level)
 			roundStart = False
@@ -162,7 +169,10 @@ def main():
 		
 
 		if player.getHealth() <= 0:
-			DISPLAYSURF.blit(deathMsg, (160, 200 ))
+			DISPLAYSURF.blit(deathMsg, (200, 110 ))
+			pygame.display.flip()
+			time.sleep(2)
+			DISPLAYSURF.blit(retryMsg, (140, 150 ))
 			pygame.display.flip()
 			while roundStart == False:
 				for event in pygame.event.get():
